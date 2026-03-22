@@ -5,7 +5,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { OrderSide, OrderItem } from '../../core/models/table-data.models';
-import { TradingDashboardOrderTableStore } from '../trading-dashboard-order.store';
+import { TradingDashboardOrdersTableStore } from '../trading-dashboard-order.store';
 
 @Component({
   selector: 'app-trading-dashboard-form',
@@ -15,7 +15,7 @@ import { TradingDashboardOrderTableStore } from '../trading-dashboard-order.stor
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradingDashboardFormComponent {
-  private readonly store = inject(TradingDashboardOrderTableStore);
+  private readonly store = inject(TradingDashboardOrdersTableStore);
 
   private readonly fb = inject(NonNullableFormBuilder);
 

@@ -42,7 +42,7 @@ const initialState: OrderTableState = {
   expandedSymbols: new Set<string>(),
 };
 
-export const TradingDashboardOrderTableStore = signalStore(
+export const TradingDashboardOrdersTableStore = signalStore(
   withState(initialState),
   withComputed((state) => ({
     instrumentMap: computed(() => {
