@@ -6,9 +6,8 @@ import {
   OrderDataResponse,
   InstrumentItem,
   ContractTypeItem,
-} from './models/table-data.models';
+} from '../models/table-data.models';
 
-// TODO: relocate to /services
 @Injectable({
   providedIn: 'root',
 })
@@ -20,7 +19,7 @@ export class GeekSoftApiService {
   getOrders(): Observable<OrderItem[]> {
     return this.httpClient
       .get<OrderDataResponse>(`${this.BASE_API_URL}order-data.json`)
-      .pipe(map(({ data }) => [...data]));
+      .pipe(map(({ data }) => data));
   }
 
   getInstruments(): Observable<InstrumentItem[]> {

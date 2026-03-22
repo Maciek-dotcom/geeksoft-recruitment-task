@@ -1,6 +1,6 @@
 import { computed, inject } from '@angular/core';
 import { pipe, tap, switchMap, forkJoin } from 'rxjs';
-import { GeekSoftApiService } from '../../../../core/api.service';
+import { GeekSoftApiService } from '../../../../core/services/api.service';
 import {
   OrderItem,
   InstrumentItem,
