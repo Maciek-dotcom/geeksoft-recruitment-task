@@ -1,17 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { OrderTableStore } from './order-table.store';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { SmartDecimalPipe } from './pipes/smart-decimal.pipe';
+import { TradingDashboardOrderTableStore } from '../trading-dashboard-order.store';
 
 @Component({
-  selector: 'app-dashboard-order-table',
+  selector: 'app-trading-dashboard-orders-table',
   imports: [DatePipe, SmartDecimalPipe],
-  templateUrl: './dashboard-order-table.component.html',
-  styleUrl: './dashboard-order-table.component.scss',
+  templateUrl: './trading-dashboard-order-table.component.html',
+  styleUrl: './trading-dashboard-order-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardOrderTableComponent {
-  protected readonly store = inject(OrderTableStore);
+export class TradingDashboardOrdersTableComponent {
+  protected readonly store = inject(TradingDashboardOrderTableStore);
 
   protected readonly groups = this.store.groups;
 
