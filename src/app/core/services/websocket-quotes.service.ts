@@ -1,32 +1,56 @@
 import { Injectable } from '@angular/core';
 import {
   Observable,
+  Subject,
   filter,
   map,
+  shareReplay,
   retry,
   timer,
-  shareReplay,
+  takeUntil,
 } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { WsMessage, QuoteItem } from '../models/quote.model';
+import {
+  QuoteItem,
+  WsQuoteRaw,
+  WsReceivedTopicMessage,
+  WsSendMessage,
+} from '../models/quote.model';
+
 @Injectable({
   providedIn: 'root',
 })
-export class WebSocketQuoteService {
+export class WebSocketQuotesService {
   private readonly GEEKSOFT_WS_URL =
     'wss://webquotes.geeksoft.pl/websocket/quotes';
 
-  private socket$: WebSocketSubject<WsMessage> | null = null;
+  private socket$: WebSocketSubject<
+    WsReceivedTopicMessage | WsSendMessage
+  > | null = null;
 
+  /**
+   * Stream of domain-mapped quote updates
+   */
   readonly quotes$: Observable<QuoteItem[]> = this.connect().pipe(
-    filter((msg) => msg.p === '/quotes/subscribed'),
-    map((msg) => msg.d as QuoteItem[]),
+    filter(
+      (msg): msg is WsReceivedTopicMessage => msg.p === '/quotes/subscribed',
+    ),
+    map((msg) =>
+      msg.d.map(
+        (raw): QuoteItem => ({
+          symbol: raw.s,
+          bidPrice: raw.b,
+          askPrice: raw.a,
+          timestamp: raw.t,
+        }),
+      ),
+    ),
     shareReplay(1),
   );
 
-  private connect(): Observable<WsMessage> {
+  private connect(): Observable<WsReceivedTopicMessage> {
     if (!this.socket$) {
-      this.socket$ = webSocket<WsMessage>({
+      this.socket$ = webSocket({
         url: this.GEEKSOFT_WS_URL,
         openObserver: {
           next: () => console.log('[WS] Connected to quotes'),
@@ -37,17 +61,15 @@ export class WebSocketQuoteService {
       });
     }
 
-    return this.socket$.pipe(
+    return (this.socket$ as Observable<WsReceivedTopicMessage>).pipe(
       retry({
         count: 5,
-        delay: () => timer(5000),
+        delay: (_, retryCount) =>
+          timer(Math.min(1000 * 2 ** retryCount, 30000)),
       }),
     );
   }
 
-  /**
-   * Track only given symbols.
-   */
   followSymbols(symbols: string[]): void {
     this.socket$?.next({
       p: '/subscribe/addlist',
@@ -55,9 +77,6 @@ export class WebSocketQuoteService {
     });
   }
 
-  /**
-   * Unsubscribe from quotes for given symbols.
-   */
   unfollow(symbols: string[]): void {
     this.socket$?.next({
       p: '/subscribe/removelist',
