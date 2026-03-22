@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { SmartDecimalPipe } from './pipes/smart-decimal.pipe';
+import { SmartDecimalPipe } from '../../core/pipes/smart-decimal.pipe';
 import { TradingDashboardOrderTableStore } from '../trading-dashboard-order.store';
 
 @Component({
@@ -18,7 +18,7 @@ export class TradingDashboardOrdersTableComponent {
   protected readonly isLoading = this.store.loading;
 
   onRemoveGroup(event: Event, symbol: string): void {
-    event.stopPropagation(); // nie toggluj expand
+    event.stopPropagation(); // do not toggle expansion when clicking the remove button
     this.store.removeGroup(symbol);
   }
 
