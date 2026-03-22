@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { TradingDashboardComponent } from './dashboard/trading-dashboard/trading-dashboard.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  imports: [TradingDashboardComponent],
 })
 export class AppComponent {
   title = 'GeeksoftTrading';
