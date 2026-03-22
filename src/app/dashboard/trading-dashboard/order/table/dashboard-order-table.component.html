@@ -38,7 +38,7 @@
             [class.value-positive]="group.totalProfit > 0"
             [class.value-negative]="group.totalProfit < 0"
           >
-            {{ group.totalProfit }}
+            {{ group.totalProfit | smartDecimal }}
           </td>
         </tr>
 
@@ -64,7 +64,7 @@
                 [class.value-positive]="order.profit > 0"
                 [class.value-negative]="order.profit < 0"
               >
-                {{ order.profit }}
+                {{ order.profit | smartDecimal }}
               </td>
             </tr>
           }

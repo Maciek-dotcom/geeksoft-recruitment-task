@@ -92,15 +92,21 @@ export const OrderTableStore = signalStore(
 
         const priceBid = prices[symbol] ?? 0;
 
-        // Calculate profit per order
         const ordersWithProfit: OrderItemWithProfit[] = symbolOrders.map(
           (order) => ({
             ...order,
-            profit: round(calculateProfit(order, priceBid, contractSize), 8),
+            profit: calculateProfit(order, priceBid, contractSize),
           }),
         );
 
+        const totalProfit = ordersWithProfit.reduce(
+          (sum, o) => sum + o.profit,
+          0,
+        );
         // JS is not a best language for financial calculations - round values to avoid floating point issues in template
+        // Do not round profit values there
+        // Use pipe to properly round total values
+
         const totalSize = round(
           symbolOrders.reduce((sum, o) => sum + o.size, 0),
           2,
@@ -108,10 +114,6 @@ export const OrderTableStore = signalStore(
         const totalSwap = round(
           ordersWithProfit.reduce((sum, o) => sum + o.swap, 0),
           4,
-        );
-        const totalProfit = round(
-          ordersWithProfit.reduce((sum, o) => sum + o.profit, 0),
-          8,
         );
 
         const avgOpenPrice = round(
