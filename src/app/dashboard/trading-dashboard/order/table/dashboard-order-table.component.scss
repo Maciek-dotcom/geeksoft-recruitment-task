@@ -4,7 +4,7 @@
 .loading-state {
   padding: v.$spacing-lg;
   text-align: center;
-  color: v.$color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: v.$font-size-base;
 }
 
@@ -16,7 +16,7 @@
     height: 4px;
   }
   &::-webkit-scrollbar-thumb {
-    background: v.$color-border;
+    background: var(--color-border);
     border-radius: 2px;
   }
 }
@@ -28,14 +28,14 @@
   font-size: v.$font-size-base;
 
   thead th {
-    color: v.$color-text-secondary;
+    color: var(--color-text-secondary);
     font-weight: 500;
     font-size: v.$font-size-sm;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     padding: v.$spacing-sm v.$spacing-md;
     text-align: left;
-    border-bottom: v.$border-default;
+    border-bottom: 1px solid var(--color-border);
     white-space: nowrap;
 
     &.align-right {
@@ -55,30 +55,30 @@
 // --- Expand icon ---
 .expand-icon {
   display: inline-block;
-  color: v.$color-accent;
+  color: var(--color-accent);
   font-size: v.$font-size-sm * 2;
   transition: transform 0.2s ease;
   cursor: pointer;
   user-select: none;
 
   &--open {
-    transform: rotate(-90deg);
+    transform: rotate(90deg);
   }
 }
 
 // ═══ GROUP ROW ═══
 .row-group {
   cursor: pointer;
-  border-bottom: v.$border-default;
+  border-bottom: 1px solid var(--color-border);
   transition: background-color 0.15s ease;
 
   &:hover {
-    background-color: v.$color-surface-hover;
+    background-color: var(--color-surface-hover);
   }
 
   td {
     padding: v.$spacing-sm v.$spacing-md;
-    color: v.$color-text-primary;
+    color: var(--color-text-primary);
     font-weight: 500;
     white-space: nowrap;
 
@@ -87,10 +87,10 @@
       font-variant-numeric: tabular-nums;
     }
     &.value-positive {
-      color: v.$color-buy;
+      color: var(--color-profit-pos);
     }
     &.value-negative {
-      color: v.$color-sell;
+      color: var(--color-profit-neg);
     }
   }
 }
@@ -110,47 +110,46 @@
   font-size: v.$font-size-sm;
   font-weight: 600;
   line-height: 18px;
-  color: v.$color-accent;
-  background-color: rgba(v.$color-accent, 0.12);
+  color: var(--color-accent);
+  background-color: rgba(29, 161, 242, 0.12); // accent with alpha
   border-radius: 10px;
 }
 
 // ═══ DETAIL ROW ═══
 .row-detail {
-  background-color: v.$color-bg;
-  border-bottom: 1px solid rgba(v.$color-border, 0.3);
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
 
   &:last-child {
-    border-bottom: v.$border-default;
+    border-bottom: 1px solid var(--color-border);
   }
 
   td {
     padding: v.$spacing-xs v.$spacing-md;
-    color: v.$color-text-primary;
+    color: var(--color-text-primary);
     white-space: nowrap;
 
     &.align-right {
       text-align: right;
       font-variant-numeric: tabular-nums;
     }
-
     &.value-positive {
-      color: v.$color-buy;
+      color: var(--color-profit-pos);
     }
     &.value-negative {
-      color: v.$color-sell;
+      color: var(--color-profit-neg);
     }
   }
 }
 
 // --- Cell-specific ---
 .cell-id {
-  color: v.$color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: v.$font-size-sm;
 }
 
 .cell-time {
-  color: v.$color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: v.$font-size-sm;
 }
 
@@ -168,12 +167,6 @@
   text-transform: uppercase;
 }
 
-// --- Empty state ---
-.empty-state {
-  padding: v.$spacing-xl v.$spacing-md;
-  text-align: center;
-  color: v.$color-text-secondary;
-}
 // --- Action column ---
 .col-actions {
   width: 40px;
@@ -200,18 +193,23 @@
   padding: 0;
 
   &--group {
-    color: v.$color-accent;
-
+    color: var(--color-accent);
     &:hover {
-      background-color: rgba(v.$color-accent, 0.15);
+      background-color: rgba(29, 161, 242, 0.15);
     }
   }
 
   &--order {
-    color: v.$color-sell;
-
+    color: var(--color-sell);
     &:hover {
-      background-color: v.$color-sell-bg;
+      background-color: var(--color-sell-bg);
     }
   }
+}
+
+// --- Empty state ---
+.empty-state {
+  padding: v.$spacing-xl v.$spacing-md;
+  text-align: center;
+  color: var(--color-text-secondary);
 }

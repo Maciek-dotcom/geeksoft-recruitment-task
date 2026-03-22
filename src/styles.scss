@@ -1,5 +1,45 @@
 @use "variables" as v;
 
+// ═══ DARK THEME (default) ═══
+:root,
+[data-theme="dark"] {
+  --color-bg: rgb(42, 56, 71);
+  --color-surface: rgba(14, 15, 26, 0.25);
+  --color-surface-hover: rgba(53, 71, 89, 0.5);
+  --color-border: rgba(198, 210, 219, 0.12);
+  --color-text-primary: rgb(198, 210, 219);
+  --color-text-secondary: rgba(198, 210, 219, 0.6);
+  --color-accent: #1da1f2;
+  --color-accent-hover: #1a91da;
+  --color-profit-pos: rgb(60, 193, 149);
+  --color-profit-neg: rgb(249, 76, 76);
+  --color-buy: rgb(60, 193, 149);
+  --color-buy-bg: rgba(60, 193, 149, 0.1);
+  --color-sell: rgb(249, 76, 76);
+  --color-sell-bg: rgba(249, 76, 76, 0.1);
+  --color-input-bg: rgba(14, 15, 26, 0.4);
+}
+
+// ═══ LIGHT THEME ═══
+[data-theme="light"] {
+  --color-bg: rgb(233, 237, 241);
+  --color-surface: rgb(220, 225, 229);
+  --color-surface-hover: rgb(201, 209, 216);
+  --color-border: rgba(14, 15, 26, 0.12);
+  --color-text-primary: rgb(14, 15, 26);
+  --color-text-secondary: rgba(14, 15, 26, 0.55);
+  --color-accent: #1a91da;
+  --color-accent-hover: #1680c2;
+  --color-profit-pos: rgb(60, 193, 149);
+  --color-profit-neg: rgb(249, 76, 76);
+  --color-buy: rgb(60, 193, 149);
+  --color-buy-bg: rgba(60, 193, 149, 0.1);
+  --color-sell: rgb(249, 76, 76);
+  --color-sell-bg: rgba(249, 76, 76, 0.1);
+  --color-input-bg: rgba(14, 15, 26, 0.06);
+}
+
+// ═══ GLOBAL RESET ═══
 *,
 *::before,
 *::after {
@@ -13,7 +53,10 @@ body {
   height: 100%;
   font-family: v.$font-family;
   font-size: 16px;
-  background-color: v.$color-bg;
-  color: v.$color-text-primary;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }

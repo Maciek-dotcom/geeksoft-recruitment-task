@@ -1,5 +1,10 @@
 <div class="dashboard-container">
-  <header class="dashboard-header">Trading Dashboard</header>
+  <header class="dashboard-header">
+    Trading Dashboard
+    <button class="theme-toggle" (click)="themeService.toggle()">
+      {{ themeService.theme() === "dark" ? "☀️" : "🌙" }}
+    </button>
+  </header>
 
   <section class="dashboard-section">TODO: FORM</section>
 
