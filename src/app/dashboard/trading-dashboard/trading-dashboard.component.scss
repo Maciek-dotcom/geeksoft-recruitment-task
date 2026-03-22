@@ -24,3 +24,8 @@
   border-radius: v.$border-radius;
   padding: v.$spacing-lg;
 }
+
+.dashboard-section--table {
+  padding: 0;
+  overflow: hidden;
+}

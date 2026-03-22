@@ -22,6 +22,7 @@ import {
   OrderItemWithProfit,
 } from '../../../../core/models/order-group.model';
 import { calculateProfit } from '../../../../core/utils/profit-calculator';
+import { round } from '../../../../core/utils/round';
 
 interface OrderTableState {
   orders: OrderItem[];
@@ -29,6 +30,7 @@ interface OrderTableState {
   contractTypes: ContractTypeItem[];
   currentPrices: Record<string, number>;
   loading: boolean;
+  expandedSymbols: Set<string>;
 }
 
 const initialState: OrderTableState = {
@@ -37,6 +39,7 @@ const initialState: OrderTableState = {
   contractTypes: [],
   currentPrices: {},
   loading: false,
+  expandedSymbols: new Set<string>(),
 };
 
 export const OrderTableStore = signalStore(
@@ -89,7 +92,6 @@ export const OrderTableStore = signalStore(
 
         const priceBid = prices[symbol] ?? 0;
 
-        // Calculate profit per order
         const ordersWithProfit: OrderItemWithProfit[] = symbolOrders.map(
           (order) => ({
             ...order,
@@ -97,19 +99,30 @@ export const OrderTableStore = signalStore(
           }),
         );
 
-        const totalSize = symbolOrders.reduce((sum, o) => sum + o.size, 0);
-        const totalSwap = ordersWithProfit.reduce((sum, o) => sum + o.swap, 0);
         const totalProfit = ordersWithProfit.reduce(
           (sum, o) => sum + o.profit,
           0,
         );
+        // JS is not a best language for financial calculations - round values to avoid floating point issues in template
+        // Do not round profit values there
+        // Use pipe to properly round total values
 
-        // Weighted average open price
-        const avgOpenPrice =
+        const totalSize = round(
+          symbolOrders.reduce((sum, o) => sum + o.size, 0),
+          2,
+        );
+        const totalSwap = round(
+          ordersWithProfit.reduce((sum, o) => sum + o.swap, 0),
+          4,
+        );
+
+        const avgOpenPrice = round(
           totalSize > 0
             ? symbolOrders.reduce((sum, o) => sum + o.openPrice * o.size, 0) /
-              totalSize
-            : 0;
+                totalSize
+            : 0,
+          4,
+        );
 
         return {
           symbol,
@@ -119,6 +132,7 @@ export const OrderTableStore = signalStore(
           totalSwap,
           totalProfit,
           contractSize,
+          expanded: state.expandedSymbols().has(symbol),
         };
       });
     }),
@@ -175,6 +189,16 @@ export const OrderTableStore = signalStore(
           }),
         ),
       ),
+
+      toggleGroup(symbol: string): void {
+        const current = new Set(store.expandedSymbols());
+        if (current.has(symbol)) {
+          current.delete(symbol);
+        } else {
+          current.add(symbol);
+        }
+        patchState(store, { expandedSymbols: current });
+      },
     }),
   ),
 

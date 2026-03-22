@@ -1,0 +1,176 @@
+@use "variables" as v;
+
+// --- Loading ---
+.loading-state {
+  padding: v.$spacing-lg;
+  text-align: center;
+  color: v.$color-text-secondary;
+  font-size: v.$font-size-base;
+}
+
+// --- Table wrapper ---
+.table-wrapper {
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: v.$color-border;
+    border-radius: 2px;
+  }
+}
+
+// --- Table ---
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: v.$font-size-base;
+
+  thead th {
+    color: v.$color-text-secondary;
+    font-weight: 500;
+    font-size: v.$font-size-sm;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: v.$spacing-sm v.$spacing-md;
+    text-align: left;
+    border-bottom: v.$border-default;
+    white-space: nowrap;
+
+    &.align-right {
+      text-align: right;
+    }
+  }
+}
+
+// --- Column widths ---
+.col-expand {
+  width: 32px;
+  text-align: center;
+  padding-left: v.$spacing-sm;
+  padding-right: 0;
+}
+
+// --- Expand icon ---
+.expand-icon {
+  display: inline-block;
+  color: v.$color-accent;
+  font-size: v.$font-size-sm * 2;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+
+  &--open {
+    transform: rotate(-90deg);
+  }
+}
+
+// ═══ GROUP ROW ═══
+.row-group {
+  cursor: pointer;
+  border-bottom: v.$border-default;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: v.$color-surface-hover;
+  }
+
+  td {
+    padding: v.$spacing-sm v.$spacing-md;
+    color: v.$color-text-primary;
+    font-weight: 500;
+    white-space: nowrap;
+
+    &.align-right {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    &.value-positive {
+      color: v.$color-buy;
+    }
+    &.value-negative {
+      color: v.$color-sell;
+    }
+  }
+}
+
+// --- Symbol + count badge ---
+.cell-symbol {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.order-count-badge {
+  display: inline-block;
+  margin-left: v.$spacing-xs;
+  padding: 0 6px;
+  min-width: 20px;
+  text-align: center;
+  font-size: v.$font-size-sm;
+  font-weight: 600;
+  line-height: 18px;
+  color: v.$color-accent;
+  background-color: rgba(v.$color-accent, 0.12);
+  border-radius: 10px;
+}
+
+// ═══ DETAIL ROW ═══
+.row-detail {
+  background-color: v.$color-bg;
+  border-bottom: 1px solid rgba(v.$color-border, 0.3);
+
+  &:last-child {
+    border-bottom: v.$border-default;
+  }
+
+  td {
+    padding: v.$spacing-xs v.$spacing-md;
+    color: v.$color-text-primary;
+    white-space: nowrap;
+
+    &.align-right {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    &.value-positive {
+      color: v.$color-buy;
+    }
+    &.value-negative {
+      color: v.$color-sell;
+    }
+  }
+}
+
+// --- Cell-specific ---
+.cell-id {
+  color: v.$color-text-secondary;
+  font-size: v.$font-size-sm;
+}
+
+.cell-time {
+  color: v.$color-text-secondary;
+  font-size: v.$font-size-sm;
+}
+
+.cell-profit {
+  font-weight: 600;
+}
+
+// --- Side badge ---
+.side-badge {
+  display: inline-block;
+  padding: 1px v.$spacing-sm;
+  border-radius: 4px;
+  font-size: v.$font-size-sm;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+// --- Empty state ---
+.empty-state {
+  padding: v.$spacing-xl v.$spacing-md;
+  text-align: center;
+  color: v.$color-text-secondary;
+}
