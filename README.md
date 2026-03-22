@@ -1,59 +1,94 @@
-# GeeksoftTrading
+# GeekSoft Trading Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
+Real-time trading dashboard built with **Angular 21** and **NgRx Signal Store**. The application displays open orders grouped by symbol, calculates live profit based on WebSocket price quotes, and allows adding/removing orders.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- 📊 **Orders table** — orders grouped by symbol with expandable rows
+- 💰 **Real-time profit** — live calculation based on WebSocket bid prices
+- ➕ **New order form** — add orders with validation (symbol, side, size, price)
+- ❌ **Close orders** — remove individual orders or entire symbol groups
+- 🌗 **Dark / Light theme** — auto-detects system preference, toggleable at runtime
+- ⚡ **Reactive architecture** — signal-based state management with `@ngrx/signals`
+
+## Tech Stack
+
+| Layer            | Technology                                      |
+| ---------------- | ----------------------------------------------- |
+| Framework        | Angular 21 (standalone components)              |
+| State management | NgRx Signal Store                               |
+| Real-time data   | RxJS `webSocket` with exponential backoff retry |
+| Forms            | Angular Reactive Forms                          |
+| Styling          | SCSS with CSS custom properties (theming)       |
+| Language         | TypeScript 5.9                                  |
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── core/
+│   │   ├── models/          # OrderItem, QuoteItem, OrderGroup, etc.
+│   │   ├── pipes/           # SmartDecimalPipe
+│   │   ├── services/        # GeekSoftApiService, WebSocketQuotesService, ThemeService
+│   │   └── utils/           # calculateProfit(), round()
+│   ├── trading-dashboard/
+│   │   ├── form/            # New order form component
+│   │   ├── orders-table/    # Grouped orders table component
+│   │   ├── trading-dashboard.component.*
+│   │   └── trading-dashboard-order.store.ts  # NgRx Signal Store
+│   ├── app.component.*
+│   ├── app.config.ts
+│   └── app.routes.ts
+├── styles.scss              # Global styles + theme variables
+├── variables.scss           # SCSS design tokens
+└── index.html
+```
+
+## Getting Started
+
+### Prerequisites
+
+- **Node.js** ≥ 20
+- **npm** ≥ 10
+
+### Installation
+
+```bash
+git clone https://github.com/Maciek-dotcom/GeekSoft-Job-Interview.git
+cd GeekSoft-Job-Interview
+npm install
+```
+
+### Development
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open [http://localhost:4200](http://localhost:4200). The app hot-reloads on file changes.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Production Build
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Build artifacts are written to `dist/`.
 
-## Running unit tests
+## Data Sources
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+| Endpoint                    | Description                           |
+| --------------------------- | ------------------------------------- |
+| `GET /order-data.json`      | Initial open orders                   |
+| `GET /instruments.json`     | Symbol → contract type mapping        |
+| `GET /contract-types.json`  | Contract type → contract size mapping |
+| `WSS webquotes.geeksoft.pl` | Live bid/ask price quotes             |
 
-```bash
-ng test
+## Profit Calculation
+
+```
+profit = (bidPrice − openPrice) × size × contractSize × sideMultiplier
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Where `sideMultiplier` is `+1` for BUY and `−1` for SELL.
