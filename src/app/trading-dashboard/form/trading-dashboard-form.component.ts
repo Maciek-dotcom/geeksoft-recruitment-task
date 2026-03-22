@@ -1,22 +1,21 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import {
-  FormGroup,
-  NonNullableFormBuilder,
   ReactiveFormsModule,
+  NonNullableFormBuilder,
   Validators,
 } from '@angular/forms';
-import { OrderSide, OrderItem } from '../../../core/models/table-data.models';
-import { OrderTableStore } from '../order/table/order-table.store';
+import { OrderSide, OrderItem } from '../../core/models/table-data.models';
+import { TradingDashboardOrdersTableStore } from '../trading-dashboard-order.store';
 
 @Component({
-  selector: 'app-dashboard-trading-form',
+  selector: 'app-trading-dashboard-form',
   imports: [ReactiveFormsModule],
-  templateUrl: './dashboard-trading-form.component.html',
-  styleUrl: './dashboard-trading-form.component.scss',
+  templateUrl: './trading-dashboard-form.component.html',
+  styleUrl: './trading-dashboard-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardTradingFormComponent {
-  private readonly store = inject(OrderTableStore);
+export class TradingDashboardFormComponent {
+  private readonly store = inject(TradingDashboardOrdersTableStore);
 
   private readonly fb = inject(NonNullableFormBuilder);
 

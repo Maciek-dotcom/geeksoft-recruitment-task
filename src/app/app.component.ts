@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TradingDashboardComponent } from './dashboard/trading-dashboard/trading-dashboard.component';
+import { TradingDashboardComponent } from './trading-dashboard/trading-dashboard.component';
 
 @Component({
   selector: 'app-root',

@@ -1,28 +1,28 @@
 import { computed, inject } from '@angular/core';
+import {
+  signalStore,
+  withState,
+  withComputed,
+  withMethods,
+  patchState,
+  withHooks,
+} from '@ngrx/signals';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, tap, switchMap, forkJoin } from 'rxjs';
-import { GeekSoftApiService } from '../../../../core/api.service';
+import {
+  OrderGroup,
+  OrderItemWithProfit,
+} from '../core/models/order-group.model';
+import { QuoteItem } from '../core/models/quote.model';
 import {
   OrderItem,
   InstrumentItem,
   ContractTypeItem,
-} from '../../../../core/models/table-data.models';
-import {
-  patchState,
-  signalStore,
-  withComputed,
-  withHooks,
-  withMethods,
-  withState,
-} from '@ngrx/signals';
-import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { QuoteItem } from '../../../../core/models/quote.model';
-import { WebSocketQuotesService } from '../../../../core/services/websocket-quotes.service';
-import {
-  OrderGroup,
-  OrderItemWithProfit,
-} from '../../../../core/models/order-group.model';
-import { calculateProfit } from '../../../../core/utils/profit-calculator';
-import { round } from '../../../../core/utils/round';
+} from '../core/models/table-data.models';
+import { GeekSoftApiService } from '../core/services/api.service';
+import { WebSocketQuotesService } from '../core/services/websocket-quotes.service';
+import { calculateProfit } from '../core/utils/profit-calculator';
+import { round } from '../core/utils/round';
 
 interface OrderTableState {
   orders: OrderItem[];
@@ -42,7 +42,7 @@ const initialState: OrderTableState = {
   expandedSymbols: new Set<string>(),
 };
 
-export const OrderTableStore = signalStore(
+export const TradingDashboardOrdersTableStore = signalStore(
   withState(initialState),
   withComputed((state) => ({
     instrumentMap: computed(() => {
