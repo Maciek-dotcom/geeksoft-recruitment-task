@@ -23,3 +23,15 @@ export interface ContractTypeItem {
   contractType: number; // enum?
   contractSize: number;
 }
+
+// Table model which agregates orders by symbol and contains additional calculated fields for display purposes
+export interface OrderGroup {
+  symbol: string;
+  orders: OrderItem[];
+  count: number;
+  avgOpenPrice: number;
+  totalSwap: number;
+  totalProfit: number;
+  totalSize: number;
+  expanded: boolean;
+}

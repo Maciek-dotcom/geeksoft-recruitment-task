@@ -1,0 +1,173 @@
+@use "variables" as v;
+
+// --- Table wrapper (horizontal scroll on mobile) ---
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: v.$border-radius;
+  border: v.$border-default;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: v.$color-border;
+    border-radius: 2px;
+  }
+}
+
+// --- Table ---
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: v.$font-size-base;
+
+  // --- Head ---
+  thead th {
+    background-color: v.$color-surface;
+    color: v.$color-text-secondary;
+    font-weight: 500;
+    font-size: v.$font-size-sm;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: v.$spacing-sm v.$spacing-md;
+    text-align: left;
+    border-bottom: v.$border-default;
+    white-space: nowrap;
+
+    &.align-right {
+      text-align: right;
+    }
+  }
+}
+
+// --- Narrow columns ---
+.col-expand {
+  width: 40px;
+  text-align: center;
+}
+
+.col-actions {
+  width: 40px;
+  text-align: center;
+}
+
+// --- GROUP ROW ---
+.row-group {
+  background-color: v.$color-surface;
+  cursor: pointer;
+  border-bottom: v.$border-default;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: v.$color-surface-hover;
+  }
+
+  td {
+    padding: v.$spacing-sm v.$spacing-md;
+    color: v.$color-text-primary;
+    font-weight: 500;
+    white-space: nowrap;
+
+    &.align-right {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+}
+
+// --- Expand button ---
+.expand-btn {
+  background: none;
+  border: none;
+  color: v.$color-accent;
+  font-size: v.$font-size-base;
+  cursor: pointer;
+  padding: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+
+  &--open {
+    transform: rotate(90deg);
+  }
+}
+
+// --- Cell-specific ---
+.cell-symbol {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.cell-count {
+  color: v.$color-accent;
+  font-size: v.$font-size-sm;
+  font-weight: 600;
+}
+
+.cell-id {
+  color: v.$color-text-secondary;
+  font-size: v.$font-size-sm;
+}
+
+.cell-time {
+  color: v.$color-text-secondary;
+  font-size: v.$font-size-sm;
+}
+
+.cell-profit {
+  font-weight: 600;
+}
+
+// --- Side badges ---
+.side-badge {
+  display: inline-block;
+  padding: 2px v.$spacing-sm;
+  border-radius: 4px;
+  font-size: v.$font-size-sm;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+
+  &--buy {
+    color: v.$color-buy;
+    background-color: v.$color-buy-bg;
+  }
+
+  &--sell {
+    color: v.$color-sell;
+    background-color: v.$color-sell-bg;
+  }
+}
+
+// --- Value coloring ---
+.value-positive {
+  color: v.$color-buy;
+}
+
+.value-negative {
+  color: v.$color-sell;
+}
+
+// --- Empty state ---
+.empty-state {
+  padding: v.$spacing-xl v.$spacing-md !important;
+  text-align: center;
+}
+
+.empty-state__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: v.$spacing-xs;
+}
+
+.empty-state__icon {
+  font-size: 2rem;
+  opacity: 0.5;
+}
+
+.empty-state__text {
+  color: v.$color-text-secondary;
+  font-size: v.$font-size-base;
+}

@@ -1,0 +1,63 @@
+<div class="table-wrapper">
+  <table class="orders-table">
+    <thead>
+      <tr>
+        <th class="col-expand"></th>
+        <th>Symbol</th>
+        <th>Order ID</th>
+        <th>Side</th>
+        <th class="align-right">Size</th>
+        <th>Open Time</th>
+        <th class="align-right">Open Price</th>
+        <th class="align-right">Swap</th>
+        <th class="align-right">Profit</th>
+        <th class="col-actions"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (group of groups; track group.symbol) {
+        <!-- GROUP ROW (summary) -->
+        <tr class="row-group">
+          <td class="col-expand">
+            <button
+              class="expand-btn"
+              [class.expand-btn--open]="group.expanded"
+            >
+              ▸
+            </button>
+          </td>
+          <td class="cell-symbol">{{ group.symbol }}</td>
+          <td class="cell-count">{{ group.orders.length }}</td>
+          <td></td>
+          <td class="align-right">{{ group.totalSize }}</td>
+          <td></td>
+          <td class="align-right">{{ group.avgOpenPrice }}</td>
+          <td class="align-right">{{ group.totalSwap }}</td>
+          <td
+            class="align-right cell-profit"
+            [class.value-positive]="group.totalProfit > 0"
+            [class.value-negative]="group.totalProfit < 0"
+          >
+            <!-- TODO: profit -->
+          </td>
+          <td class="col-actions">
+            <!-- TODO: clipboard icon -->
+          </td>
+        </tr>
+
+        @if (group.expanded) {
+          <!-- DETAIL ROWS (individual orders -->
+        }
+      } @empty {
+        <tr>
+          <td colspan="10" class="empty-state">
+            <div class="empty-state__content">
+              <span class="empty-state__icon">📭</span>
+              <span class="empty-state__text">No orders to display</span>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
