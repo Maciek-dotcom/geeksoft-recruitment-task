@@ -1,4 +1,4 @@
-import { OrderItem } from '../core/models/table-data.models';
+import { OrderItem } from '../models/table-data.models';
 
 export function calculateProfit(
   order: OrderItem,

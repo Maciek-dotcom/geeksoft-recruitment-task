@@ -17,11 +17,11 @@ import {
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { QuoteItem } from '../../../../core/models/quote.model';
 import { WebSocketQuotesService } from '../../../../core/services/websocket-quotes.service';
-import { calculateProfit } from '../../../../utils/profit-calculator';
 import {
   OrderGroup,
   OrderItemWithProfit,
 } from '../../../../core/models/order-group.model';
+import { calculateProfit } from '../../../../core/utils/profit-calculator';
 
 interface OrderTableState {
   orders: OrderItem[];
