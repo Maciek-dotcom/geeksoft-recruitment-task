@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
   Observable,
-  Subject,
   filter,
   map,
-  share,
   retry,
   timer,
-  takeUntil,
   shareReplay,
 } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
@@ -15,7 +12,7 @@ import { WsMessage, QuoteItem } from '../models/quote.model';
 @Injectable({
   providedIn: 'root',
 })
-export class WebSocketQuotesService {
+export class WebSocketQuoteService {
   private readonly GEEKSOFT_WS_URL =
     'wss://webquotes.geeksoft.pl/websocket/quotes';
 

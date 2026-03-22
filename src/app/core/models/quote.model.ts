@@ -1,11 +1,19 @@
+export interface WireQuoteItem {
+  s: string; // symbol
+  b: number; // priceBid
+  a: number; // askPrice
+  t: number; // timestamp
+}
+
+// Domain model used within the application
 export interface QuoteItem {
-  s: string; //symbol
-  b: number; //priceBid
-  a: number; //askPrice
-  t: number; //timestamp
+  symbol: string;
+  bidPrice: number;
+  askPrice: number;
+  timestamp: number;
 }
 
 export interface WsMessage {
-  p: string; //e.g. "/quotes/subscribed"
-  d: QuoteItem[] | string[]; //data payload
+  p: string; // e.g. "/quotes/subscribed"
+  d: WireQuoteItem[] | string[]; // data payload
 }
