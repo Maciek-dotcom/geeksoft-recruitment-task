@@ -96,7 +96,7 @@ export const OrderTableStore = signalStore(
         const ordersWithProfit: OrderItemWithProfit[] = symbolOrders.map(
           (order) => ({
             ...order,
-            profit: calculateProfit(order, priceBid, contractSize),
+            profit: round(calculateProfit(order, priceBid, contractSize), 8),
           }),
         );
 
@@ -119,7 +119,7 @@ export const OrderTableStore = signalStore(
             ? symbolOrders.reduce((sum, o) => sum + o.openPrice * o.size, 0) /
                 totalSize
             : 0,
-          2,
+          4,
         );
 
         return {

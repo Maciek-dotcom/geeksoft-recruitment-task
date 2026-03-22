@@ -30,11 +30,7 @@
           <td class="align-right">{{ group.totalSize }}</td>
           <td></td>
           <td class="align-right">{{ group.avgOpenPrice }}</td>
-          <td
-            class="align-right"
-            [class.value-positive]="group.totalSwap > 0"
-            [class.value-negative]="group.totalSwap < 0"
-          >
+          <td class="align-right">
             {{ group.totalSwap }}
           </td>
           <td
@@ -53,11 +49,7 @@
               <td></td>
               <td class="cell-id">{{ order.id }}</td>
               <td>
-                <span
-                  class="side-badge"
-                  [class.side-badge--buy]="order.side === 'BUY'"
-                  [class.side-badge--sell]="order.side === 'SELL'"
-                >
+                <span class="side-badge">
                   {{ order.side }}
                 </span>
               </td>

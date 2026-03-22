@@ -56,13 +56,13 @@
 .expand-icon {
   display: inline-block;
   color: v.$color-accent;
-  font-size: v.$font-size-sm;
+  font-size: v.$font-size-sm * 2;
   transition: transform 0.2s ease;
   cursor: pointer;
   user-select: none;
 
   &--open {
-    transform: rotate(90deg);
+    transform: rotate(-90deg);
   }
 }
 
@@ -85,6 +85,12 @@
     &.align-right {
       text-align: right;
       font-variant-numeric: tabular-nums;
+    }
+    &.value-positive {
+      color: v.$color-buy;
+    }
+    &.value-negative {
+      color: v.$color-sell;
     }
   }
 }
@@ -127,6 +133,13 @@
       text-align: right;
       font-variant-numeric: tabular-nums;
     }
+
+    &.value-positive {
+      color: v.$color-buy;
+    }
+    &.value-negative {
+      color: v.$color-sell;
+    }
   }
 }
 
@@ -153,24 +166,6 @@
   font-size: v.$font-size-sm;
   font-weight: 600;
   text-transform: uppercase;
-
-  &--buy {
-    color: v.$color-buy;
-    background-color: v.$color-buy-bg;
-  }
-
-  &--sell {
-    color: v.$color-sell;
-    background-color: v.$color-sell-bg;
-  }
-}
-
-.value-positive {
-  color: v.$color-buy;
-}
-
-.value-negative {
-  color: v.$color-sell;
 }
 
 // --- Empty state ---
