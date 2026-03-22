@@ -8,6 +8,7 @@ import {
   ContractTypeItem,
 } from './models/table-data.models';
 
+// TODO: relocate to /services
 @Injectable({
   providedIn: 'root',
 })
