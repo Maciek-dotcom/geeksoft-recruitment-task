@@ -16,4 +16,14 @@ export class DashboardOrderTableComponent {
   protected readonly groups = this.store.groups;
 
   protected readonly isLoading = this.store.loading;
+
+  onRemoveGroup(event: Event, symbol: string): void {
+    event.stopPropagation(); // nie toggluj expand
+    this.store.removeGroup(symbol);
+  }
+
+  onRemoveOrder(event: Event, orderId: number): void {
+    event.stopPropagation();
+    this.store.removeOrder(orderId);
+  }
 }

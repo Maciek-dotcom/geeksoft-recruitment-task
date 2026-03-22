@@ -199,6 +199,42 @@ export const OrderTableStore = signalStore(
         }
         patchState(store, { expandedSymbols: current });
       },
+
+      removeOrder(orderId: number): void {
+        const orders = store.orders();
+        const removed = orders.find((o) => o.id === orderId);
+        if (!removed) return;
+
+        const remaining = orders.filter((o) => o.id !== orderId);
+        patchState(store, { orders: remaining });
+
+        // If no more orders for that symbol → unsubscribe from WS
+        const symbolStillUsed = remaining.some(
+          (o) => o.symbol === removed.symbol,
+        );
+        if (!symbolStillUsed) {
+          ws.unfollow([removed.symbol]);
+        }
+
+        alert(`Zamknięto zlecenie nr ${orderId}`);
+      },
+
+      removeGroup(symbol: string): void {
+        const orders = store.orders();
+        const groupOrders = orders.filter((o) => o.symbol === symbol);
+        if (groupOrders.length === 0) return;
+
+        const ids = groupOrders.map((o) => o.id).join(', ');
+
+        patchState(store, {
+          orders: orders.filter((o) => o.symbol !== symbol),
+        });
+
+        // Unsubscribe from WS — this symbol is gone
+        ws.unfollow([symbol]);
+
+        alert(`Zamknięto zlecenie nr ${ids}`);
+      },
     }),
   ),
 
