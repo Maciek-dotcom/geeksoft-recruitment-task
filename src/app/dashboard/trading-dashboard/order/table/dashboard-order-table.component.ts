@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import {
   OrderGroup,
   OrderItem,
 } from '../../../../core/models/table-data.models';
+import { OrderTableStore } from './order-table.store';
 
 @Component({
   selector: 'app-dashboard-order-table',
@@ -11,5 +12,5 @@ import {
   styleUrl: './dashboard-order-table.component.scss',
 })
 export class DashboardOrderTableComponent {
-  groups: OrderGroup[] = [];
+  protected readonly groups = inject(OrderTableStore).groups;
 }

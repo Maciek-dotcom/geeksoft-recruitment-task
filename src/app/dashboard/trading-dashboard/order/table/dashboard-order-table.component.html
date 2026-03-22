@@ -14,8 +14,9 @@
         <th class="col-actions"></th>
       </tr>
     </thead>
+
     <tbody>
-      @for (group of groups; track group.symbol) {
+      @for (group of groups(); track group.symbol) {
         <!-- GROUP ROW (summary) -->
         <tr class="row-group">
           <td class="col-expand">
