@@ -71,10 +71,6 @@ export const TradingDashboardOrdersTableStore = signalStore(
       const instrumentMap = state.instrumentMap();
       const contractSizeMap = state.contractSizeMap();
 
-      // Debugging purposes
-      // TODO: remove that
-      console.log(prices);
-
       // Group by symbol
       const grouped = new Map<string, OrderItem[]>();
       for (const order of orders) {
@@ -154,11 +150,7 @@ export const TradingDashboardOrdersTableStore = signalStore(
         pipe(
           tap(() => patchState(store, { loading: true })),
           switchMap(() =>
-            forkJoin({
-              orders: api.getOrders(),
-              instruments: api.getInstruments(),
-              contractTypes: api.getContractTypes(),
-            }).pipe(
+            api.data$.pipe(
               tap(({ orders, instruments, contractTypes }) => {
                 patchState(store, {
                   orders,

@@ -15,8 +15,6 @@ export class TradingDashboardOrdersTableComponent {
 
   protected readonly groups = this.store.groups;
 
-  protected readonly isLoading = this.store.loading;
-
   onRemoveGroup(event: Event, symbol: string): void {
     event.stopPropagation(); // do not toggle expansion when clicking the remove button
     this.store.removeGroup(symbol);
