@@ -9,6 +9,7 @@ export interface OrderGroup {
   totalSwap: number;
   totalProfit: number;
   contractSize: number;
+  expanded: boolean;
 }
 
 export interface OrderItemWithProfit extends OrderItem {

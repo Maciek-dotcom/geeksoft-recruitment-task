@@ -1,16 +1,17 @@
-import { Component, computed, inject } from '@angular/core';
-import {
-  OrderGroup,
-  OrderItem,
-} from '../../../../core/models/table-data.models';
+import { Component, inject } from '@angular/core';
 import { OrderTableStore } from './order-table.store';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard-order-table',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './dashboard-order-table.component.html',
   styleUrl: './dashboard-order-table.component.scss',
 })
 export class DashboardOrderTableComponent {
-  protected readonly groups = inject(OrderTableStore).groups;
+  protected readonly store = inject(OrderTableStore);
+
+  protected readonly groups = this.store.groups;
+
+  protected readonly isLoading = this.store.loading;
 }

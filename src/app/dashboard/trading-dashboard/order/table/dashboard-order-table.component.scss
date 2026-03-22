@@ -1,10 +1,16 @@
 @use "variables" as v;
 
-// --- Table wrapper (horizontal scroll on mobile) ---
+// --- Loading ---
+.loading-state {
+  padding: v.$spacing-lg;
+  text-align: center;
+  color: v.$color-text-secondary;
+  font-size: v.$font-size-base;
+}
+
+// --- Table wrapper ---
 .table-wrapper {
   overflow-x: auto;
-  border-radius: v.$border-radius;
-  border: v.$border-default;
 
   &::-webkit-scrollbar {
     height: 4px;
@@ -21,9 +27,7 @@
   border-collapse: collapse;
   font-size: v.$font-size-base;
 
-  // --- Head ---
   thead th {
-    background-color: v.$color-surface;
     color: v.$color-text-secondary;
     font-weight: 500;
     font-size: v.$font-size-sm;
@@ -40,20 +44,30 @@
   }
 }
 
-// --- Narrow columns ---
+// --- Column widths ---
 .col-expand {
-  width: 40px;
+  width: 32px;
   text-align: center;
+  padding-left: v.$spacing-sm;
+  padding-right: 0;
 }
 
-.col-actions {
-  width: 40px;
-  text-align: center;
+// --- Expand icon ---
+.expand-icon {
+  display: inline-block;
+  color: v.$color-accent;
+  font-size: v.$font-size-sm;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+
+  &--open {
+    transform: rotate(90deg);
+  }
 }
 
-// --- GROUP ROW ---
+// ═══ GROUP ROW ═══
 .row-group {
-  background-color: v.$color-surface;
   cursor: pointer;
   border-bottom: v.$border-default;
   transition: background-color 0.15s ease;
@@ -75,36 +89,48 @@
   }
 }
 
-// --- Expand button ---
-.expand-btn {
-  background: none;
-  border: none;
-  color: v.$color-accent;
-  font-size: v.$font-size-base;
-  cursor: pointer;
-  padding: 2px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease;
-
-  &--open {
-    transform: rotate(90deg);
-  }
-}
-
-// --- Cell-specific ---
+// --- Symbol + count badge ---
 .cell-symbol {
   font-weight: 600;
   letter-spacing: 0.3px;
 }
 
-.cell-count {
-  color: v.$color-accent;
+.order-count-badge {
+  display: inline-block;
+  margin-left: v.$spacing-xs;
+  padding: 0 6px;
+  min-width: 20px;
+  text-align: center;
   font-size: v.$font-size-sm;
   font-weight: 600;
+  line-height: 18px;
+  color: v.$color-accent;
+  background-color: rgba(v.$color-accent, 0.12);
+  border-radius: 10px;
 }
 
+// ═══ DETAIL ROW ═══
+.row-detail {
+  background-color: v.$color-bg;
+  border-bottom: 1px solid rgba(v.$color-border, 0.3);
+
+  &:last-child {
+    border-bottom: v.$border-default;
+  }
+
+  td {
+    padding: v.$spacing-xs v.$spacing-md;
+    color: v.$color-text-primary;
+    white-space: nowrap;
+
+    &.align-right {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+}
+
+// --- Cell-specific ---
 .cell-id {
   color: v.$color-text-secondary;
   font-size: v.$font-size-sm;
@@ -119,15 +145,14 @@
   font-weight: 600;
 }
 
-// --- Side badges ---
+// --- Side badge ---
 .side-badge {
   display: inline-block;
-  padding: 2px v.$spacing-sm;
+  padding: 1px v.$spacing-sm;
   border-radius: 4px;
   font-size: v.$font-size-sm;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
 
   &--buy {
     color: v.$color-buy;
@@ -140,7 +165,6 @@
   }
 }
 
-// --- Value coloring ---
 .value-positive {
   color: v.$color-buy;
 }
@@ -151,23 +175,7 @@
 
 // --- Empty state ---
 .empty-state {
-  padding: v.$spacing-xl v.$spacing-md !important;
+  padding: v.$spacing-xl v.$spacing-md;
   text-align: center;
-}
-
-.empty-state__content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: v.$spacing-xs;
-}
-
-.empty-state__icon {
-  font-size: 2rem;
-  opacity: 0.5;
-}
-
-.empty-state__text {
   color: v.$color-text-secondary;
-  font-size: v.$font-size-base;
 }
