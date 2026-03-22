@@ -23,7 +23,7 @@ import { GeekSoftApiService } from '../core/services/api.service';
 import { WebSocketQuotesService } from '../core/services/websocket-quotes.service';
 import { calculateProfit } from '../core/utils/profit-calculator';
 import { round } from '../core/utils/round';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 interface OrderTableState {
   orders: OrderItem[];
   instruments: InstrumentItem[];
@@ -70,10 +70,6 @@ export const TradingDashboardOrdersTableStore = signalStore(
       const prices = state.currentPrices();
       const instrumentMap = state.instrumentMap();
       const contractSizeMap = state.contractSizeMap();
-
-      // Debugging purposes
-      // TODO: remove that
-      console.log(prices);
 
       // Group by symbol
       const grouped = new Map<string, OrderItem[]>();
@@ -145,6 +141,7 @@ export const TradingDashboardOrdersTableStore = signalStore(
       store,
       api = inject(GeekSoftApiService),
       ws = inject(WebSocketQuotesService),
+      snackbar = inject(MatSnackBar),
     ) => ({
       /**
        * Load static data (orders + instruments + contractTypes),
@@ -154,11 +151,7 @@ export const TradingDashboardOrdersTableStore = signalStore(
         pipe(
           tap(() => patchState(store, { loading: true })),
           switchMap(() =>
-            forkJoin({
-              orders: api.getOrders(),
-              instruments: api.getInstruments(),
-              contractTypes: api.getContractTypes(),
-            }).pipe(
+            api.data$.pipe(
               tap(({ orders, instruments, contractTypes }) => {
                 patchState(store, {
                   orders,
@@ -218,7 +211,10 @@ export const TradingDashboardOrdersTableStore = signalStore(
           ws.unfollow([removed.symbol]);
         }
 
-        alert(`Zamknięto zlecenie nr ${orderId}`);
+        snackbar.open(`Zamknięto zlecenie nr: ${orderId}`, undefined, {
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
       },
 
       removeGroup(symbol: string): void {
@@ -235,7 +231,10 @@ export const TradingDashboardOrdersTableStore = signalStore(
         // Unsubscribe from WS — this symbol is gone
         ws.unfollow([symbol]);
 
-        alert(`Zamknięto zlecenie nr ${ids}`);
+        snackbar.open(`Zamknięto zlecenia: ${ids}`, undefined, {
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
       },
 
       addOrder(order: OrderItem): void {

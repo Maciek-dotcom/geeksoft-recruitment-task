@@ -1,18 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  Observable,
-  Subject,
-  filter,
-  map,
-  shareReplay,
-  retry,
-  timer,
-  takeUntil,
-} from 'rxjs';
+import { Observable, filter, map, shareReplay, retry, timer } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import {
   QuoteItem,
-  WsQuoteRaw,
   WsReceivedTopicMessage,
   WsSendMessage,
 } from '../models/quote.model';
