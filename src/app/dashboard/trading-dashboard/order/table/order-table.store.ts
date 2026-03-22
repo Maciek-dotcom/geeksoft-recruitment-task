@@ -53,6 +53,8 @@ export const OrderTableStore = signalStore(
       return map;
     }),
 
+    availableSymbols: computed(() => state.instruments().map((i) => i.symbol)),
+
     contractSizeMap: computed(() => {
       const map = new Map<number, number>();
       for (const c of state.contractTypes()) {
@@ -234,6 +236,24 @@ export const OrderTableStore = signalStore(
         ws.unfollow([symbol]);
 
         alert(`Zamknięto zlecenie nr ${ids}`);
+      },
+
+      addOrder(order: OrderItem): void {
+        const orders = store.orders();
+        patchState(store, { orders: [...orders, order] });
+
+        // If this is a new symbol — subscribe to WS quotes
+        const symbolExists = orders.some((o) => o.symbol === order.symbol);
+        if (!symbolExists) {
+          ws.followSymbols([order.symbol]);
+        }
+      },
+
+      /** Generate next unique order ID */
+      nextOrderId(): number {
+        const orders = store.orders();
+        if (orders.length === 0) return 1;
+        return Math.max(...orders.map((o) => o.id)) + 1;
       },
     }),
   ),

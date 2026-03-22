@@ -1,0 +1,73 @@
+<form class="order-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h3 class="form-title">Nowe zlecenie</h3>
+
+  <div class="form-grid">
+    <div class="form-field">
+      <label for="symbol">Symbol</label>
+      <select id="symbol" formControlName="symbol">
+        <option value="" disabled>Wybierz symbol...</option>
+        @for (s of availableSymbols(); track s) {
+          <option [value]="s">{{ s }}</option>
+        }
+      </select>
+      @let symbolControl = form.controls["symbol"];
+      @if (symbolControl.touched && symbolControl.errors?.["required"]) {
+        <span class="form-error">Symbol jest wymagany</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="side">Side</label>
+      <select id="side" formControlName="side">
+        @for (s of sides; track s) {
+          <option [value]="s">{{ s }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="size">Size</label>
+      <input
+        id="size"
+        type="number"
+        formControlName="size"
+        placeholder="np. 0.01"
+        step="0.01"
+        min="0.01"
+      />
+
+      @let sizeControl = form.controls["size"];
+      @if (sizeControl.touched && sizeControl.errors?.["required"]) {
+        <span class="form-error">Size jest wymagany</span>
+      }
+
+      @if (sizeControl.touched && sizeControl.errors?.["min"]) {
+        <span class="form-error">Wartość musi być > 0</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="openPrice">Open Price</label>
+      <input
+        id="openPrice"
+        type="number"
+        formControlName="openPrice"
+        placeholder="np. 93000.50"
+        step="0.01"
+        min="0.01"
+      />
+
+      @let openPriceControl = form.controls["openPrice"];
+      @if (openPriceControl.touched && openPriceControl.errors?.["required"]) {
+        <span class="form-error">Cena jest wymagana</span>
+      }
+      @if (openPriceControl.touched && openPriceControl.errors?.["min"]) {
+        <span class="form-error">Wartość musi być > 0</span>
+      }
+    </div>
+  </div>
+
+  <button type="submit" class="btn-submit" [disabled]="form.invalid">
+    Dodaj zlecenie
+  </button>
+</form>
