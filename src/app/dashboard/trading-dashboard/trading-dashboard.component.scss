@@ -1,0 +1,26 @@
+@use "variables" as v;
+
+.dashboard-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: v.$spacing-lg;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-lg;
+}
+
+.dashboard-header {
+  font-size: v.$font-size-xl;
+  font-weight: 700;
+  color: v.$color-text-primary;
+  padding-bottom: v.$spacing-md;
+  border-bottom: v.$border-default;
+}
+
+.dashboard-section {
+  background-color: v.$color-surface;
+  border: v.$border-default;
+  border-radius: v.$border-radius;
+  padding: v.$spacing-lg;
+}
