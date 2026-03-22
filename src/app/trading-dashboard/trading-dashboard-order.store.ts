@@ -8,7 +8,7 @@ import {
   withHooks,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, tap, switchMap, forkJoin } from 'rxjs';
+import { pipe, tap, switchMap, forkJoin, delay } from 'rxjs';
 import {
   OrderGroup,
   OrderItemWithProfit,
@@ -38,7 +38,7 @@ const initialState: OrderTableState = {
   instruments: [],
   contractTypes: [],
   currentPrices: {},
-  loading: false,
+  loading: true,
   expandedSymbols: new Set<string>(),
 };
 
@@ -149,6 +149,7 @@ export const TradingDashboardOrdersTableStore = signalStore(
        */
       loadAll: rxMethod<void>(
         pipe(
+          delay(500), // Simulate loading delay
           tap(() => patchState(store, { loading: true })),
           switchMap(() =>
             api.data$.pipe(

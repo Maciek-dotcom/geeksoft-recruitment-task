@@ -1,98 +1,107 @@
-<div class="table-wrapper">
-  <table class="orders-table">
-    <thead>
-      <tr>
-        <th class="col-expand"></th>
-        <th>Symbol</th>
-        <th>Order ID</th>
-        <th>Side</th>
-        <th class="align-right">Size</th>
-        <th>Open Time</th>
-        <th class="align-right">Open Price</th>
-        <th class="align-right">Swap</th>
-        <th class="align-right">Profit</th>
-        <th class="col-actions"></th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (group of groups(); track group.symbol) {
-        <tr class="row-group" (click)="store.toggleGroup(group.symbol)">
-          <td class="col-expand">
-            <span class="expand-icon" [class.expand-icon--open]="group.expanded"
-              >▸</span
-            >
-          </td>
-          <td class="cell-symbol">
-            {{ group.symbol }}
-            <span class="order-count-badge">{{ group.orders.length }}</span>
-          </td>
-          <td></td>
-          <td></td>
-          <td class="align-right">{{ group.totalSize }}</td>
-          <td></td>
-          <td class="align-right">{{ group.avgOpenPrice }}</td>
-          <td class="align-right">
-            {{ group.totalSwap }}
-          </td>
-          <td
-            class="align-right cell-profit"
-            [class.value-positive]="group.totalProfit > 0"
-            [class.value-negative]="group.totalProfit < 0"
-          >
-            {{ group.totalProfit | smartDecimal }}
-          </td>
-          <td class="col-actions">
-            <button
-              class="btn-close btn-close--group"
-              (click)="onRemoveGroup($event, group.symbol)"
-              title="Zamknij grupę {{ group.symbol }}"
-            >
-              ⧉
-            </button>
-          </td>
-        </tr>
-
-        @if (group.expanded) {
-          @for (order of group.orders; track order.id) {
-            <tr class="row-detail">
-              <td class="col-expand"></td>
-              <td></td>
-              <td class="cell-id">{{ order.id }}</td>
-              <td>
-                <span class="side-badge">
-                  {{ order.side }}
-                </span>
-              </td>
-              <td class="align-right">{{ order.size }}</td>
-              <td class="cell-time">
-                {{ order.openTime | date: "dd.MM.yyyy HH:mm:ss" }}
-              </td>
-              <td class="align-right">{{ order.openPrice }}</td>
-              <td class="align-right">{{ order.swap }}</td>
-              <td
-                class="align-right cell-profit"
-                [class.value-positive]="order.profit > 0"
-                [class.value-negative]="order.profit < 0"
-              >
-                {{ order.profit | smartDecimal }}
-              </td>
-              <td class="col-actions">
-                <button
-                  class="btn-close btn-close--order"
-                  (click)="onRemoveOrder($event, order.id)"
-                  title="Zamknij zlecenie {{ order.id }}"
-                >
-                  ✕
-                </button>
-              </td>
-            </tr>
-          }
-        }
-      } @empty {
+@if (isLoading()) {
+  <div class="loading-state">
+    <span class="spinner"></span>
+    Loading orders…
+  </div>
+} @else {
+  <div class="table-wrapper">
+    <table class="orders-table">
+      <thead>
         <tr>
-          <td colspan="10" class="empty-state">No orders to display</td>
+          <th class="col-expand"></th>
+          <th>Symbol</th>
+          <th>Order ID</th>
+          <th>Side</th>
+          <th class="align-right">Size</th>
+          <th>Open Time</th>
+          <th class="align-right">Open Price</th>
+          <th class="align-right">Swap</th>
+          <th class="align-right">Profit</th>
+          <th class="col-actions"></th>
         </tr>
-      }
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        @for (group of groups(); track group.symbol) {
+          <tr class="row-group" (click)="store.toggleGroup(group.symbol)">
+            <td class="col-expand">
+              <span
+                class="expand-icon"
+                [class.expand-icon--open]="group.expanded"
+                >▸</span
+              >
+            </td>
+            <td class="cell-symbol">
+              {{ group.symbol }}
+              <span class="order-count-badge">{{ group.orders.length }}</span>
+            </td>
+            <td></td>
+            <td></td>
+            <td class="align-right">{{ group.totalSize }}</td>
+            <td></td>
+            <td class="align-right">{{ group.avgOpenPrice }}</td>
+            <td class="align-right">
+              {{ group.totalSwap }}
+            </td>
+            <td
+              class="align-right cell-profit"
+              [class.value-positive]="group.totalProfit > 0"
+              [class.value-negative]="group.totalProfit < 0"
+            >
+              {{ group.totalProfit | smartDecimal }}
+            </td>
+            <td class="col-actions">
+              <button
+                class="btn-close btn-close--group"
+                (click)="onRemoveGroup($event, group.symbol)"
+                title="Zamknij grupę {{ group.symbol }}"
+              >
+                ⧉
+              </button>
+            </td>
+          </tr>
+
+          @if (group.expanded) {
+            @for (order of group.orders; track order.id) {
+              <tr class="row-detail">
+                <td class="col-expand"></td>
+                <td></td>
+                <td class="cell-id">{{ order.id }}</td>
+                <td>
+                  <span class="side-badge">
+                    {{ order.side }}
+                  </span>
+                </td>
+                <td class="align-right">{{ order.size }}</td>
+                <td class="cell-time">
+                  {{ order.openTime | date: "dd.MM.yyyy HH:mm:ss" }}
+                </td>
+                <td class="align-right">{{ order.openPrice }}</td>
+                <td class="align-right">{{ order.swap }}</td>
+                <td
+                  class="align-right cell-profit"
+                  [class.value-positive]="order.profit > 0"
+                  [class.value-negative]="order.profit < 0"
+                >
+                  {{ order.profit | smartDecimal }}
+                </td>
+                <td class="col-actions">
+                  <button
+                    class="btn-close btn-close--order"
+                    (click)="onRemoveOrder($event, order.id)"
+                    title="Zamknij zlecenie {{ order.id }}"
+                  >
+                    ✕
+                  </button>
+                </td>
+              </tr>
+            }
+          }
+        } @empty {
+          <tr>
+            <td colspan="10" class="empty-state">No orders to display</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
