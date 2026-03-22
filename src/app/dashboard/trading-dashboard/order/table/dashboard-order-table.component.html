@@ -11,6 +11,7 @@
         <th class="align-right">Open Price</th>
         <th class="align-right">Swap</th>
         <th class="align-right">Profit</th>
+        <th class="col-actions"></th>
       </tr>
     </thead>
     <tbody>
@@ -40,6 +41,15 @@
           >
             {{ group.totalProfit | smartDecimal }}
           </td>
+          <td class="col-actions">
+            <button
+              class="btn-close btn-close--group"
+              (click)="onRemoveGroup($event, group.symbol)"
+              title="Zamknij grupę {{ group.symbol }}"
+            >
+              ⧉
+            </button>
+          </td>
         </tr>
 
         @if (group.expanded) {
@@ -65,6 +75,15 @@
                 [class.value-negative]="order.profit < 0"
               >
                 {{ order.profit | smartDecimal }}
+              </td>
+              <td class="col-actions">
+                <button
+                  class="btn-close btn-close--order"
+                  (click)="onRemoveOrder($event, order.id)"
+                  title="Zamknij zlecenie {{ order.id }}"
+                >
+                  ✕
+                </button>
               </td>
             </tr>
           }

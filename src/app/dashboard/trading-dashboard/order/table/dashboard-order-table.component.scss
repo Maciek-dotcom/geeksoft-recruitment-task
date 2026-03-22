@@ -174,3 +174,44 @@
   text-align: center;
   color: v.$color-text-secondary;
 }
+// --- Action column ---
+.col-actions {
+  width: 40px;
+  text-align: center;
+  padding: 0 v.$spacing-sm;
+}
+
+// --- Close buttons ---
+.btn-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: transparent;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+  font-size: v.$font-size-base;
+  line-height: 1;
+  padding: 0;
+
+  &--group {
+    color: v.$color-accent;
+
+    &:hover {
+      background-color: rgba(v.$color-accent, 0.15);
+    }
+  }
+
+  &--order {
+    color: v.$color-sell;
+
+    &:hover {
+      background-color: v.$color-sell-bg;
+    }
+  }
+}
