@@ -1,5 +1,5 @@
 import { computed, inject } from '@angular/core';
-import { pipe, tap, switchMap, forkJoin, catchError, EMPTY } from 'rxjs';
+import { pipe, tap, switchMap, forkJoin } from 'rxjs';
 import { GeekSoftApiService } from '../../../../core/api.service';
 import {
   OrderItem,
@@ -57,14 +57,6 @@ export const OrderTableStore = signalStore(
       }
       return map;
     }),
-
-    symbols: computed(() => {
-      const set = new Set<string>();
-      for (const o of state.orders()) {
-        set.add(o.symbol);
-      }
-      return [...set];
-    }),
   })),
 
   withComputed((state) => ({
@@ -87,11 +79,13 @@ export const OrderTableStore = signalStore(
       }
 
       return [...grouped.entries()].map(([symbol, symbolOrders]) => {
-        // Resolve contractSize: symbol → contractType → contractSize
         const contractType = instrumentMap.get(symbol);
-        const contractSize = contractType
-          ? (contractSizeMap.get(contractType) ?? 0)
-          : 0;
+
+        const contractSize =
+          // contractType equal 0 is valid value. Make sure that won't be omited
+          contractType !== undefined
+            ? (contractSizeMap.get(contractType) ?? 0)
+            : 0;
 
         const priceBid = prices[symbol] ?? 0;
 
