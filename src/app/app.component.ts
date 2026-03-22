@@ -7,6 +7,4 @@ import { TradingDashboardComponent } from './dashboard/trading-dashboard/trading
   templateUrl: './app.component.html',
   imports: [TradingDashboardComponent],
 })
-export class AppComponent {
-  title = 'GeeksoftTrading';
-}
+export class AppComponent {}
