@@ -30,7 +30,6 @@ src/
 │   │   └── trading-dashboard-order.store.ts  # NgRx Signal Store
 │   ├── app.component.*
 │   ├── app.config.ts
-│   └── app.routes.ts
 ├── styles.scss              # Global styles + theme variables
 ├── variables.scss           # SCSS design tokens
 └── index.html
@@ -39,7 +38,7 @@ src/
 ### Installation
 
 ```bash
-git clone https://github.com/Maciek-dotcom/GeekSoft-Job-Interview.git
+git clone https://github.com/Maciek-dotcom/geeksoft-recruitment-task.git
 cd GeekSoft-Job-Interview
 npm install
 ```
