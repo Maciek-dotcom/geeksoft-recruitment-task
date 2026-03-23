@@ -215,6 +215,7 @@ export const TradingDashboardOrdersTableStore = signalStore(
         snackbar.open(`Zamknięto zlecenie nr: ${orderId}`, undefined, {
           verticalPosition: 'top',
           horizontalPosition: 'center',
+          duration: 2000,
         });
       },
 
@@ -235,6 +236,7 @@ export const TradingDashboardOrdersTableStore = signalStore(
         snackbar.open(`Zamknięto zlecenia: ${ids}`, undefined, {
           verticalPosition: 'top',
           horizontalPosition: 'center',
+          duration: 2000,
         });
       },
 
