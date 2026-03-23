@@ -23,7 +23,6 @@ import { GeekSoftApiService } from '../core/services/api.service';
 import { WebSocketQuotesService } from '../core/services/websocket-quotes.service';
 import { calculateProfit } from '../core/utils/profit-calculator';
 import { round } from '../core/utils/round';
-import { NotificationService } from '../core/services/notifications.service';
 interface OrderTableState {
   orders: OrderItem[];
   instruments: InstrumentItem[];
@@ -141,7 +140,6 @@ export const TradingDashboardOrdersTableStore = signalStore(
       store,
       api = inject(GeekSoftApiService),
       ws = inject(WebSocketQuotesService),
-      notifications = inject(NotificationService),
     ) => ({
       /**
        * Load static data (orders + instruments + contractTypes),
@@ -195,10 +193,10 @@ export const TradingDashboardOrdersTableStore = signalStore(
         patchState(store, { expandedSymbols: current });
       },
 
-      removeOrder(orderId: number): void {
+      removeOrder(orderId: number): RemovedIds {
         const orders = store.orders();
         const removed = orders.find((o) => o.id === orderId);
-        if (!removed) return;
+        if (!removed) return null;
 
         const remaining = orders.filter((o) => o.id !== orderId);
         patchState(store, { orders: remaining });
@@ -211,13 +209,13 @@ export const TradingDashboardOrdersTableStore = signalStore(
           ws.unfollow([removed.symbol]);
         }
 
-        notifications.closePosition(orderId);
+        return { removedIds: [orderId] };
       },
 
-      removeGroup(symbol: string): void {
+      removeGroup(symbol: string): RemovedIds {
         const orders = store.orders();
         const groupOrders = orders.filter((o) => o.symbol === symbol);
-        if (groupOrders.length === 0) return;
+        if (groupOrders.length === 0) return null;
 
         const ids = groupOrders.map((o) => o.id);
 
@@ -227,8 +225,7 @@ export const TradingDashboardOrdersTableStore = signalStore(
 
         // Unsubscribe from WS — this symbol is gone
         ws.unfollow([symbol]);
-
-        notifications.closePosition(ids);
+        return { removedIds: ids };
       },
 
       addOrder(order: OrderItem): void {
@@ -262,3 +259,5 @@ export const TradingDashboardOrdersTableStore = signalStore(
     },
   }),
 );
+
+type RemovedIds = { removedIds: number[] } | null;
