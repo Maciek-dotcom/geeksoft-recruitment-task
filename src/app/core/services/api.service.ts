@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { forkJoin, map, Observable } from 'rxjs';
+import { catchError, EMPTY, forkJoin, map, Observable } from 'rxjs';
 import {
   OrderItem,
   OrderDataResponse,
@@ -20,7 +20,12 @@ export class GeekSoftApiService {
     orders: this.getOrders(),
     instruments: this.getInstruments(),
     contractTypes: this.getContractTypes(),
-  });
+  }).pipe(
+    catchError(() => {
+      alert('Nie udało się pobrać dane z API');
+      return EMPTY;
+    }),
+  );
 
   private getOrders(): Observable<OrderItem[]> {
     return this.httpClient

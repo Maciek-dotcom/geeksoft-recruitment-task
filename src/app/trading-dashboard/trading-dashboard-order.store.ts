@@ -8,7 +8,7 @@ import {
   withHooks,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, tap, switchMap, forkJoin, delay } from 'rxjs';
+import { pipe, tap, switchMap } from 'rxjs';
 import {
   OrderGroup,
   OrderItemWithProfit,
@@ -30,7 +30,7 @@ interface OrderTableState {
   contractTypes: ContractTypeItem[];
   currentPrices: Record<string, number>;
   loading: boolean;
-  expandedSymbols: Set<string>;
+  expandedSymbols: string[];
 }
 
 const initialState: OrderTableState = {
@@ -39,7 +39,7 @@ const initialState: OrderTableState = {
   contractTypes: [],
   currentPrices: {},
   loading: true,
-  expandedSymbols: new Set<string>(),
+  expandedSymbols: [],
 };
 
 export const TradingDashboardOrdersTableStore = signalStore(
@@ -130,7 +130,7 @@ export const TradingDashboardOrdersTableStore = signalStore(
           totalSwap,
           totalProfit,
           contractSize,
-          expanded: state.expandedSymbols().has(symbol),
+          expanded: state.expandedSymbols().includes(symbol),
         };
       });
     }),
@@ -149,7 +149,6 @@ export const TradingDashboardOrdersTableStore = signalStore(
        */
       loadAll: rxMethod<void>(
         pipe(
-          delay(500), // Simulate loading delay
           tap(() => patchState(store, { loading: true })),
           switchMap(() =>
             api.data$.pipe(
@@ -187,11 +186,11 @@ export const TradingDashboardOrdersTableStore = signalStore(
       ),
 
       toggleGroup(symbol: string): void {
-        const current = new Set(store.expandedSymbols());
-        if (current.has(symbol)) {
-          current.delete(symbol);
+        let current = [...store.expandedSymbols()];
+        if (current.includes(symbol)) {
+          current = current.filter((s) => s !== symbol);
         } else {
-          current.add(symbol);
+          current = [...current, symbol];
         }
         patchState(store, { expandedSymbols: current });
       },
