@@ -23,7 +23,7 @@ import { GeekSoftApiService } from '../core/services/api.service';
 import { WebSocketQuotesService } from '../core/services/websocket-quotes.service';
 import { calculateProfit } from '../core/utils/profit-calculator';
 import { round } from '../core/utils/round';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from '../core/services/notifications.service';
 interface OrderTableState {
   orders: OrderItem[];
   instruments: InstrumentItem[];
@@ -141,7 +141,7 @@ export const TradingDashboardOrdersTableStore = signalStore(
       store,
       api = inject(GeekSoftApiService),
       ws = inject(WebSocketQuotesService),
-      snackbar = inject(MatSnackBar),
+      notifications = inject(NotificationService),
     ) => ({
       /**
        * Load static data (orders + instruments + contractTypes),
@@ -211,11 +211,7 @@ export const TradingDashboardOrdersTableStore = signalStore(
           ws.unfollow([removed.symbol]);
         }
 
-        snackbar.open(`Zamknięto zlecenie nr: ${orderId}`, undefined, {
-          verticalPosition: 'top',
-          horizontalPosition: 'center',
-          duration: 2000,
-        });
+        notifications.closePosition(orderId);
       },
 
       removeGroup(symbol: string): void {
@@ -223,7 +219,7 @@ export const TradingDashboardOrdersTableStore = signalStore(
         const groupOrders = orders.filter((o) => o.symbol === symbol);
         if (groupOrders.length === 0) return;
 
-        const ids = groupOrders.map((o) => o.id).join(', ');
+        const ids = groupOrders.map((o) => o.id);
 
         patchState(store, {
           orders: orders.filter((o) => o.symbol !== symbol),
@@ -232,11 +228,7 @@ export const TradingDashboardOrdersTableStore = signalStore(
         // Unsubscribe from WS — this symbol is gone
         ws.unfollow([symbol]);
 
-        snackbar.open(`Zamknięto zlecenia: ${ids}`, undefined, {
-          verticalPosition: 'top',
-          horizontalPosition: 'center',
-          duration: 2000,
-        });
+        notifications.closePosition(ids);
       },
 
       addOrder(order: OrderItem): void {
